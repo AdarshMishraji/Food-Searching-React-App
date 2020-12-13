@@ -1,44 +1,57 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import ResultList from '../components/ResultsList';
+import { StatusBar } from 'expo-status-bar';
+import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import ResultList from '../components/ResultList';
 import SearchBar from '../components/SearchBar';
 import useResults from '../hooks/useResults';
 
+const SearchScreen = (props) => {
 
-const SearchScreen = () => {
-    const [searchTerm, setSeachTerm] = useState(''); // variable to store search term that is entered at the search bar.
-    const [searchAPI, results, errorMsg] = useResults(); // using the hook 
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchAPI, results, errorMsg] = useResults();
 
-    // console.warn(results)
-
-    const filterResultsByPrice = function (price) {
-        // price : '$' || '$$' || '$$$'
-        return results.filter( results => {
-                return results.price == price
+    const filterResiultsByPrice = (price) => {
+        return results.filter(
+            (results) => {
+                return results.price == price;
             }
         )
     }
 
-    return <View>
+    return <>
+        <StatusBar style = "white"/>
         <SearchBar 
             searchTerm = {searchTerm}
             onSearchTermChange = {
                 (newSearchTerm) => {
-                    setSeachTerm(newSearchTerm)
+                    setSearchTerm(newSearchTerm);
                 }
             }
             onSubmit = {
                 () => {
-                    searchAPI(searchTerm)
+                    searchAPI(searchTerm);
                 }
             }
         />
-        {errorMsg ? <Text>{errorMsg}</Text> : null}
-        <Text>We have found: {results.length}</Text>
-        <ResultList title = 'Cost Effective' results = {filterResultsByPrice('$')}/>
-        <ResultList title = 'Bit Pricier' results = {filterResultsByPrice('$$')}/>
-        <ResultList title = 'Big Spender' results = {filterResultsByPrice('$$$')}/>
-    </View>
+        {
+            errorMsg ? <Text>{errorMsg}</Text> : null
+        }
+        <ScrollView>
+            <ResultList 
+                title = "Cost Effective" 
+                results = {filterResiultsByPrice('$')}
+            />
+            
+            <ResultList 
+                title = "Bit Pricier" 
+                results = {filterResiultsByPrice('$$')}
+            />
+            <ResultList 
+                title = "Big Spender" 
+                results = {filterResiultsByPrice('$$$')}
+            />
+        </ScrollView>
+    </>
 }
 
 const styles = StyleSheet.create(

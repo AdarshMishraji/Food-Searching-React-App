@@ -1,27 +1,24 @@
-import React ,{} from 'react';
-import {View, Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {View, Text, TextInput, StyleSheet} from 'react-native';
 import {Feather} from '@expo/vector-icons';
-import {  } from 'react-native-gesture-handler';
 
 const SearchBar = (props) => {
-
-
     return <View style = {styles.backgroundStyle}>
         <Feather name = 'search' style = {styles.iconStyle}/>
-        <TextInput
+        <TextInput 
             autoCapitalize = 'none'
             autoCorrect = {false}
             style = {styles.inputStyle}
-            placeholder = "Search"
+            placeholder = 'Search'
             value = {props.searchTerm}
             onEndEditing = {
                 () => {
-                    props.onSubmit()
+                    props.onSubmit();
                 }
             }
             onChangeText = {
-                (newSearchTerm) => {
-                    props.onSearchTermChange(newSearchTerm);
+                (newSeachTerm) => {
+                    props.onSearchTermChange(newSeachTerm);
                 }
             }
         />
@@ -36,7 +33,8 @@ const styles = StyleSheet.create(
             backgroundColor: "#999999",
             borderRadius: 10,
             marginHorizontal:15,
-            flexDirection:'row'
+            flexDirection:'row',
+            marginBottom: 10
         },
         inputStyle : {
             fontSize:18,
